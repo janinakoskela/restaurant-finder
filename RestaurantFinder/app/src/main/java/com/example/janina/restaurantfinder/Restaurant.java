@@ -1,18 +1,50 @@
 package com.example.janina.restaurantfinder;
-
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 
 /**
  * Created by Janina on 3.3.2017.
  */
 
-public class Restaurant {
+public class Restaurant implements Comparable<Restaurant>{
 
     String id;
     String name;
     String delivery_range;
     double distance;
+    LinkedHashMap<String, Timetable> timeTableMap;
+    boolean isOpen;
+
+    public boolean isOpen() {
+        return isOpen;
+    }
+
+    public void setOpen(boolean open) {
+        isOpen = open;
+    }
+
+    public String distanceToString() {
+
+        String distanceString = String.valueOf(distance);
+        return distanceString;
+
+    }
+
+
+    public LinkedHashMap<String, Timetable> getTimeTableMap() {
+        return timeTableMap;
+    }
+
+    public void setTimeTableMap(LinkedHashMap<String, Timetable> timeTableMap) {
+        this.timeTableMap = timeTableMap;
+    }
 
     public double getDistance() {
         return distance;
@@ -47,16 +79,29 @@ public class Restaurant {
     }
 
 
-    public Restaurant(JSONObject obj) {
+
+    public Restaurant(JSONObject obj, LinkedHashMap<String, Timetable> ttMap) {
 
         try {
             this.id = obj.get("restaurant_id").toString();
             this.name = obj.get("name").toString();
             this.delivery_range = obj.get("delivery_range").toString();
             this.distance = Double.parseDouble(obj.get("distance").toString());
-        } catch (JSONException e) {
-            System.out.println("restaurantissa vika");
+            this.timeTableMap = ttMap;
+            this.isOpen = Boolean.parseBoolean(obj.getJSONObject("timetable").get("restaurant_open").toString());
+
+
+        } catch (Exception e) {
+            System.out.println(e);
         }
 
     }
+
+
+    @Override
+    public int compareTo(Restaurant o) {
+        return new Double(distance).compareTo(o.distance);
+    }
+
+
 }

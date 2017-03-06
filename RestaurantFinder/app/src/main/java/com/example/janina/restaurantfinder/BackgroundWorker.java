@@ -90,19 +90,6 @@ public class BackgroundWorker extends AsyncTask<String, Void, String> {
             System.out.println(response.toString());
             result = response.toString();
 
-            /*JSONArray restaurantArray = new JSONArray(response.toString());
-
-            ArrayList<Restaurant> restArr;
-            restArr = new ArrayList<Restaurant>();
-
-            for (int i = 0; i < restaurantArray.length(); i++) {
-
-                JSONObject restaurantObject = restaurantArray.getJSONObject(i);
-
-                restArr.add(new Restaurant(restaurantObject));
-
-            }*/
-
 
         } catch (Exception e) {
 
